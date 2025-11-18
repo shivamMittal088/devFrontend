@@ -52,16 +52,9 @@ const Body = () => {
   return (
     <div>
       <Header />
-
-      {/* Show modal below header */}
-      {showModal && (
-        <HelloModal
-          name={user?.firstName}
-          onClose={() => setShowModal(false)}
-        />
-      )}
-
-      <Outlet />
+      <div  className="flex-1 min-h-[80vh]">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );
