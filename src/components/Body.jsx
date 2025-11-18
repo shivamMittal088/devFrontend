@@ -56,7 +56,7 @@ const Body = () => {
       {/* Show modal below header */}
       {showModal && (
         <HelloModal
-          name={user.firstName}
+          name={user?.firstName}
           onClose={() => setShowModal(false)}
         />
       )}

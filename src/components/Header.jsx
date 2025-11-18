@@ -32,14 +32,10 @@ const Header = () => {
   try {
     setOpen(false);
     await axios.post("http://localhost:5555/logout", {}, { withCredentials: true });
+    dispatch(removeUser());
 
     // navigate first so protected components unmount
-    navigate("/Login", { replace: true });
-
-    // schedule clear after current call stack — safe because components will unmount
-    setTimeout(() => dispatch(removeUser()), 0);
-    // or microtask:
-    // Promise.resolve().then(() => dispatch(removeUser()));
+    return navigate("/Login");
   } catch (err) {
     console.error("Logout error:", err?.response?.data || err.message);
   }
@@ -113,13 +109,12 @@ const Header = () => {
                         Settings
                       </a>
 
-                      <a
-                        href="#logout"
+                      <button
                         className="px-4 hover:bg-gray-50 cursor-pointer w-full block py-3 text-left"
                         onClick={handleLogout}
                       >
                         Logout
-                      </a>
+                      </button>
                     </div>
                   )}
                 </div>

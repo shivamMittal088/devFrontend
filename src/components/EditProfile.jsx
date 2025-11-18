@@ -5,44 +5,27 @@ import { useDispatch } from "react-redux";
 import UserCard from "./UserCard";
 import { addUser } from "../utils/userSlice";
 
-const ProfileForm = ()=> {
-
-  const user = useSelector((store) => store.user);
+const ProfileForm = ({user})=> {
   
 
   console.log("afdafafa:", user);
 
   // state variables for form fields tracking can be added here
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [age, setAge] = useState("");
-  const [about, setAbout] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
-  const [gender, setGender] = useState("");
-  const [skills, setSkills] = useState("");
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [age, setAge] = useState(user.age);
+  const [bio, setBio] = useState(user.bio);
+  const [photoURL, setPhotoURL] = useState(user.photoURL);
+  const [gender, setGender] = useState(user.gender);
+  const [skills, setSkills] = useState(user.skills);
   const [error ,setError] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const dispatch = useDispatch();
-
-  
-// Sync local state whenever user prop changes (or appears after an async fetch)
-  useEffect(() => {
-  setFirstName(user?.firstName ?? "");
-  setLastName(user?.lastName ?? "");
-  setPhotoURL(user?.photoUrl ?? user?.photoURL ?? "");
-  setAge(user?.age ?? "");
-  setGender(user?.gender ?? "");
-  setAbout(user?.about ?? "");
-  setSkills(Array.isArray(user?.skills) ? user.skills.join(", ") : (user?.skills ?? ""));
-}, [user]);
-
-if (!user) return null;   // <--- add this line
 
 
   const handleSaveProfile = async (e)=>{
     //Clear Errors
     setError("");
-
     try{
 
     // Implement profile save logic here
@@ -52,9 +35,10 @@ if (!user) return null;   // <--- add this line
         firstName,
         lastName,
         age,
-        about,
+        bio,
         photoURL,
-        gender
+        gender,
+        skills
       },
       {withCredentials: true}
     );
@@ -63,22 +47,51 @@ if (!user) return null;   // <--- add this line
 
     // Implement code to update the redux store if needed
     // for this basiclly we need to make reducer that helps to update user info in the store
-    dispatch(addUser(res?.data));
+    dispatch(addUser(res?.data?.data));
     setShowToast(true);
       setTimeout(() => {
         setShowToast(false);
       }, 3000);
     }
     catch(err){
-      setError(err?.response?.data);
+      setError(parseServerError(err));
     }
-
   }
 
+
+  // ---------- minimal helper to normalize server/axios errors ----------
+  const parseServerError = (err) => {
+    const resp = err?.response?.data;
+    if (!resp) return err?.message || "Unknown error";
+
+    if (typeof resp === "string") return resp;
+
+    // common Mongoose ValidationError shape
+    if (resp.message && resp.errors && typeof resp.errors === "object") {
+      const fieldMessages = Object.keys(resp.errors).map((k) => {
+        const e = resp.errors[k];
+        return e?.message ? `${k}: ${e.message}` : `${k}: ${String(e)}`;
+      });
+      return [resp.message, ...fieldMessages].join(" • ");
+    }
+
+    // if response has a message
+    if (resp.message) return resp.message;
+
+    // fallback
+    try {
+      return JSON.stringify(resp);
+    } catch {
+      return String(resp);
+    }
+  };
+  
+
   return user && (
-    <>
+     <div className="flex flex-col md:flex-row justify-center items-start md:gap-10 mt-8 px-4">
+
     <div
-      className="w-full max-w-md mx-auto z-10 mt-16 mb-16 bg-white p-6 rounded-2xl border border-gray-200 shadow-md space-y-4"
+      className="w-full max-w-md mx-auto z-10 mt-2 mb-8 bg-white p-3 rounded-2xl border border-black shadow-lg space-y-4"
     >
       <h2 className="text-center text-2xl font-semibold">Edit Profile</h2>
 
@@ -165,13 +178,13 @@ if (!user) return null;   // <--- add this line
 
 
       <label className="block text-sm">
-        <span className="text-gray-700">About</span>
+        <span className="text-gray-700">Bio</span>
         <textarea 
-        name="about"
+        name="bio"
         rows="3" className="mt-1 block w-full border rounded-md p-2" 
-        value={about}
+        value={bio}
         onChange={(e)=>{
-          setAbout(e.target.value)
+          setBio(e.target.value)
         }}
         />
       </label>
@@ -199,23 +212,37 @@ if (!user) return null;   // <--- add this line
 
 
     {user && (<UserCard 
-    className="mx-auto mb-16 mt-8"
-    user={ {firstName , lastName , age , gender , about , photoURL ,skills}} 
+    className="mx-auto mt-4 border-black shadow-lg"
+    user={ {firstName , lastName , age , gender , bio , photoURL ,skills}} 
     />)
     }
 
 
     {showToast && (
-        <div className="toast toast-top toast-center">
-          <div className="alert alert-success">
-            <span>Profile saved successfully.</span>
-          </div>
-        </div>
-      )}
+  <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 
+                  bg-white/80 backdrop-blur-md shadow-xl 
+                  border border-gray-200 rounded-xl px-6 py-3 
+                  flex items-center gap-3 animate-fadeIn">
+    <svg
+      className="w-6 h-6 text-green-600"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+    </svg>
+
+    <span className="font-medium text-gray-800">
+      Profile saved successfully!
+    </span>
+  </div>
+)}
+
 
 
     
-    </>
+    </div>
   );
 }
 

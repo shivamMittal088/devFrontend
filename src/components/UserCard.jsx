@@ -7,7 +7,7 @@ const UserCard = ( {user ,className} ) => {
   console.log("UserCard props.user (type):", typeof user, user);
 
 
-  const { photoURL,firstName, lastName, age, gender, about } = user ?? {};
+  const { photoURL,firstName, lastName, age, gender, bio ,skills} = user;
   const fullName = [firstName, lastName].filter(Boolean).join(" ") || "Unknown";
 
   return user && (
@@ -38,9 +38,12 @@ const UserCard = ( {user ,className} ) => {
           {age || "—"} <span className="mx-1">•</span> {gender || "—"}
         </p>
 
-        {/* About */}
+         <h5 className="text-l font-semibold text-gray-600">{skills}</h5>
+
+
+        {/* Bio */}
         <p className="text-center text-sm text-gray-500 mt-1">
-          {about || "This user has no bio yet."}
+          {bio || "This user has no bio yet."}
         </p>
       </div>
 
