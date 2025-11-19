@@ -1,27 +1,57 @@
 import React from 'react'
 import axios from "axios"
 import { useEffect } from "react"
-import {useSelector} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import RequestCard from './RequestCard'
+import { addRequests } from "../utils/requestsSlice"
 
 
 const Requests = () => {
-    const RequestReceived = async ()=>{
+  const dispatch = useDispatch()
+  const requestsData = useSelector((store)=>store.requests);
+
+    try{
+      const fetchRequests = async ()=>{
         const res = await axios.get(
             "http://localhost:5555/user/requests/received",
-            {withCredentials:true}
+            { withCredentials : true }
         )
+
+        console.log("Requests Received : ",res.data);
+        dispatch(addRequests(res.data.data));
     }
 
     useEffect(()=>{
-        RequestReceived();
+        fetchRequests();
     },[])
 
+    console.log("request data : ",requestsData);
+
+
+    }
+    catch(err){
+      console.log(err);
+    }
+
+    if(!requestsData) return null;
+     if (requestsData.length === 0){
+      return <h1 className="flex justify-center my-10"> No Requests Found</h1>;
+     }
+
+
+     
 
   return (
-    <div className="flex justify-center mt-4">
-      <RequestCard />
+    requestsData && (<div className="flex flex-col items-center mt-4 gap-8">
+      {
+      requestsData.map((entity)=>{
+        const { firstName, lastName, photoURL , age, gender, about } = entity.fromUserId;
+        const user = entity.fromUserId;
+        return <RequestCard key={entity._id} user = {user} requestsId = {entity._id} />
+      })
+}
     </div>
+    )
   )
 }
 
