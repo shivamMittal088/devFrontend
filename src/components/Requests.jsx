@@ -26,14 +26,12 @@ const Requests = () => {
     },[])
 
     console.log("request data : ",requestsData);
-
-
     }
     catch(err){
       console.log(err);
     }
 
-    if(!requestsData) return null;
+    if(!requestsData) return ;
      if (requestsData.length === 0){
       return <h1 className="flex justify-center my-10"> No Requests Found</h1>;
      }
@@ -45,9 +43,13 @@ const Requests = () => {
     requestsData && (<div className="flex flex-col items-center mt-4 gap-8">
       {
       requestsData.map((entity)=>{
-        const { firstName, lastName, photoURL , age, gender, about } = entity.fromUserId;
+        const {_id , firstName, lastName, photoURL , age, gender, about } = entity.fromUserId;
         const user = entity.fromUserId;
-        return <RequestCard key={entity._id} user = {user} requestsId = {entity._id} />
+        return <RequestCard 
+        key={entity._id} 
+        user = {user} 
+        // requestsId = {entity._id} 
+        />
       })
 }
     </div>

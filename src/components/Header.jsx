@@ -105,13 +105,18 @@ const Header = () => {
                         Profile
                       </Link>
 
-                      <a href="#settings" className="block w-full text-left px-4 py-3 hover:bg-gray-50">
-                        Settings
-                      </a>
+                      <Link 
+                        to={"/Feed"} 
+                        className="block w-full text-left px-4 py-3 hover:bg-gray-50"
+                        onClick={() => setOpen(false)}
+                        >
+                        Feed
+                      </Link>
 
                       <Link
                         className="px-4 hover:bg-gray-50 cursor-pointer w-full block py-3 text-left"
                         to="/Requests"
+                        onClick={() => setOpen(false)}
                       >
                         Request Received
                       </Link>

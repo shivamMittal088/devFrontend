@@ -34,6 +34,30 @@ const RequestCard = ( {user ,requestsId })=> {
     }
   }
 
+
+
+
+  const handleIgnore = async ()=>{
+    console.log("Handling ignore function ............");
+    try{
+    const res = await axios.patch(
+      `http://localhost:5555/request/review/rejected/${_id}`,
+      {},
+      {withCredentials:true}
+    )
+
+    console.log("ignore call made with id ",requestsId);
+
+    dispatch(removeRequests(_id));
+  }
+  catch(err){
+    console.log("ignore function call error : ",err);
+  }
+}
+
+
+
+
   return (
     <article
       className="w-full max-w-screen-lg p-2  rounded-2xl border border-black bg-transparent backdrop-blur-sm transition-transform transform hover:scale-[1.02] hover:shadow-2xl hover:bg-white/5"
@@ -63,6 +87,7 @@ const RequestCard = ( {user ,requestsId })=> {
         <button
           className="flex-1 rounded-xl border border-black/90 bg-transparent text-sm transition-colors hover:bg-black/5 active:scale-98 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-black"
           aria-label="Ignore request"
+          onClick={handleIgnore}
         >
           Ignore
         </button>
