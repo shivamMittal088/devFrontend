@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { removeUser } from "../utils/userSlice";
+import { devLogo } from "../Constants";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -49,15 +50,22 @@ const Header = () => {
           <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/20 shadow-sm ring-1 ring-white/30">
-                <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 2L15 8H9L12 2Z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M12 22L9 16H15L12 22Z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <img
+                alt="logo"
+                src={devLogo}/>
               </div>
 
               <div>
-                <div className="text-white font-extrabold text-2xl tracking-tight">DEVTINDER</div>
-                <div className="text-white/80 text-sm -mt-0.5">Match with code & culture</div>
+                <div className="text-white font-extrabold text-2xl tracking-tight cursor-pointer"
+                onClick={()=>{
+                  {
+                  if(user) navigate("/feed")
+                    else navigate("/login");
+                }
+                }
+              }
+                >DEVTINDER</div>
+                <div className="text-white/80 text-sm -mt-0.5">Exclusive for developers Community .</div>
               </div>
             </div>
 

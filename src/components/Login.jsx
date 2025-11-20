@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { devLogo } from "../Constants";
 import { FiLogIn } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 
 const Login = () => {
@@ -47,7 +48,9 @@ const Login = () => {
 
       console.log("Login response:", res.data);
       dispatch(addUser(res.data)); // <- dispatch user data to Redux store
-      navigate("/Feed");
+
+       toast.success("Logged in successfully!");
+      setTimeout(() => navigate("/feed"), 1000);
     } 
     catch (err) {
       setError(err.response?.data?.message);
@@ -75,12 +78,13 @@ const Login = () => {
         }, 
         { withCredentials: true })
 
-        dispatch(addUser(res.data)); // <- dispatch user data to Redux store
+        console.log(res.data);
+        dispatch(addUser(res.data.data)); // <- dispatch user data to Redux store
         setModalOpen(true);
 
         setTimeout(()=>{
           setModalOpen(false);
-          navigate("/Profile");
+          return navigate("/Profile");
         },3000)
 
 
@@ -91,6 +95,8 @@ const Login = () => {
     }
   };
 
+
+  
 
 
 
@@ -132,18 +138,6 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-rose-500 to-yellow-400 p-6">
       <div className="w-full max-w-md">
         <div className="mx-auto bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl shadow-2xl overflow-hidden">
-          {/* Header with logo */}
-          <div className="flex items-center gap-4 px-8 py-6 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400">
-            <img
-              src={devLogo}
-              alt="logo"
-              className="w-12 h-12 rounded-lg object-cover shadow-md"
-            />
-            <div>
-              <h1 className="text-white text-xl font-extrabold leading-tight">DEVTINDER</h1>
-              <p className="text-white/90 text-sm">Developed for developers community</p>
-            </div>
-          </div>
 
           <div className="p-8">
             {login && (

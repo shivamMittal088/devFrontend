@@ -8,10 +8,17 @@ import Feed from './components/Feed';
 import Connections from './components/Connections';
 import Requests from "./components/Requests"
 
+import { Toaster } from "react-hot-toast";
+
 
 function App() {
   return (
     <>
+    <Toaster 
+    position="top-center" 
+    toastOptions={{ duration: 3000 }} />
+
+
     <Provider store={appStore}>
       <BrowserRouter basename="/">
       <Routes>
