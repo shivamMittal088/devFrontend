@@ -40,7 +40,7 @@ const Requests = () => {
      
 
   return (
-    requestsData && (<div className="flex flex-col items-center mt-4 gap-8">
+    requestsData && (<div className="flex flex-col items-center mt-12 gap-8 mb-40">
       {
       requestsData.map((entity)=>{
         const {_id , firstName, lastName, photoURL , age, gender, about } = entity.fromUserId;

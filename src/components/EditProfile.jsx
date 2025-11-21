@@ -4,6 +4,7 @@ import {useState , useEffect} from "react";
 import { useDispatch } from "react-redux";
 import UserCard from "./UserCard";
 import { addUser } from "../utils/userSlice";
+import ProgressBar from "./ProgressBar";
 
 const ProfileForm = ({user})=> {
   
@@ -54,40 +55,17 @@ const ProfileForm = ({user})=> {
       }, 3000);
     }
     catch(err){
-      setError(parseServerError(err));
+      console.log("error is : ",err.response?.errors?.firstName?.name);
+      setError(err.response?._message);
     }
   }
-
-
-  // ---------- minimal helper to normalize server/axios errors ----------
-  const parseServerError = (err) => {
-    const resp = err?.response?.data;
-    if (!resp) return err?.message || "Unknown error";
-
-    if (typeof resp === "string") return resp;
-
-    // common Mongoose ValidationError shape
-    if (resp.message && resp.errors && typeof resp.errors === "object") {
-      const fieldMessages = Object.keys(resp.errors).map((k) => {
-        const e = resp.errors[k];
-        return e?.message ? `${k}: ${e.message}` : `${k}: ${String(e)}`;
-      });
-      return [resp.message, ...fieldMessages].join(" • ");
-    }
-
-    // if response has a message
-    if (resp.message) return resp.message;
-
-    // fallback
-    try {
-      return JSON.stringify(resp);
-    } catch {
-      return String(resp);
-    }
-  };
   
 
   return user && (
+    <>
+    <ProgressBar user = {user}/>
+
+    
      <div className="flex flex-col md:flex-row justify-center items-start md:gap-10 mt-8 px-4">
 
     <div
@@ -236,13 +214,11 @@ const ProfileForm = ({user})=> {
     <span className="font-medium text-gray-800">
       Profile saved successfully!
     </span>
+
   </div>
 )}
-
-
-
-    
     </div>
+    </>
   );
 }
 

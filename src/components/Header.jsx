@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { removeUser } from "../utils/userSlice";
 import { devLogo } from "../Constants";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -29,15 +30,22 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", onDocClick);
   }, [open]);
 
+
+
+
   const handleLogout = async () => {
   try {
     setOpen(false);
     await axios.post("http://localhost:5555/logout", {}, { withCredentials: true });
     dispatch(removeUser());
 
+    toast.success("Logged out succesfully");
     // navigate first so protected components unmount
-    return navigate("/Login");
-  } catch (err) {
+    setTimeout(()=>{
+      return navigate("/Login");
+    },1000);
+    }
+    catch (err) {
     console.error("Logout error:", err?.response?.data || err.message);
   }
 };

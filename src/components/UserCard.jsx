@@ -1,22 +1,24 @@
 import axios from "axios"
-import {useDispatch} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
+import { useEffect } from "react";
 import { removeFeed } from "../utils/feedSlice";
+import { addMutuallength } from "../utils/mutualConnectionsSlice";
+import { addMutualData } from "../utils/mutualConnectionsSlice";
+
 
 const DEFAULT_AVATAR =
   "https://cdn-icons-png.flaticon.com/512/847/847969.png";
 
 const UserCard = ( {user ,className} ) => {
   const dispatch = useDispatch();
-
-  if (!user) return null; // or return a guest card
-
-
+  const mutual = useSelector((store)=>store.mutual);
   const { _id ,photoURL,firstName, lastName, age, gender, bio ,skills} = user;
   const fullName = [firstName, lastName].filter(Boolean).join(" ") || "Unknown";
 
 
 
   const handleRequest = async(status , _id)=>{
+    if (!user) return null; // or return a guest card
     try{
       const res = await axios.post(
       `http://localhost:5555/request/send/${status}/${_id}`,
@@ -32,6 +34,30 @@ const UserCard = ( {user ,className} ) => {
     }
   }
 
+
+
+  const getMutual = async ()=>{
+    if (!_id) return; // guard
+          try{
+              const res = await axios.get(
+                  `http://localhost:5555/user/mutualConnections/${_id}`,
+                  {withCredentials:true}
+              );
+
+              dispatch(addMutuallength(res.data?.length));
+              dispatch(addMutualData(res.data?.data));
+          }
+          catch(err){
+            console.log(err.response?.error)
+          }
+  }
+
+  useEffect(()=>{
+    getMutual();
+  },[])
+
+  const mutualCount = mutual?.length;
+  const mutualData = mutual;
 
 
   return (
@@ -70,6 +96,46 @@ const UserCard = ( {user ,className} ) => {
           {bio || "This user has no bio yet."}
         </p>
       </div>
+
+
+       {/* ⭐ Mutual Connections Block (defensive) */}
+      <div className="mt-3 w-full flex items-center justify-center text-sm text-gray-600">
+        <div className="flex items-center gap-2">
+          {/* Mutual Count (default to 0) */}
+          <span className="font-medium text-gray-700">
+            {mutualCount ?? 0} mutual
+          </span>
+
+          {/* Preview avatars (safe: default to empty array) */}
+          <div className="flex -space-x-2">
+            {
+            (mutualData || []).slice(0, 3).map((m) => (
+              <img
+                key={m._id}
+                src={m.photoURL || DEFAULT_AVATAR}
+                alt={m.firstName || "Mutual"}
+                className="w-6 h-6 rounded-full ring-2 ring-white object-cover"
+              />
+            ))
+            }
+          </div>
+
+          {/* View All */}
+          {/* <button
+            // onClick={openAllMutuals}
+            className="ml-2 text-blue-600 hover:underline text-xs"
+          >
+            See all
+          </button> */}
+        </div>
+      </div>
+
+
+
+
+
+
+
 
       {/* Action Buttons */}
       <div className="mt-5 flex justify-center gap-3">
