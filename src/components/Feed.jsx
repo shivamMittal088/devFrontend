@@ -15,7 +15,7 @@ const Feed = () => {
         if(feed) return;
         try{
             const res = await axios.get(
-                {URL} + "/feed",
+                URL + "feed",
                 { withCredentials: true }
             );
 

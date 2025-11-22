@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import {setConnections} from "../utils/connectionsSlice"
 import { useSelector } from 'react-redux';
 import ConnectionCard from './ConnectionCard';
+import {URL} from "../Constants";
 import UserCard from './UserCard';
 
 const Connections = () => {
@@ -15,7 +16,7 @@ const Connections = () => {
     try{
     const handleConnections = async()=>{
         const res = await axios.get(
-            "http://localhost:5555/user/connections",
+            URL + "user/connections",
             { withCredentials: true }
         )
 

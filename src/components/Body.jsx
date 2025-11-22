@@ -30,7 +30,7 @@ const Body = () => {
       }
       
       const res = await axios.get(
-        { URL } + "/profile/view",
+        URL + "profile/view",
         { withCredentials:true }
       )
       console.log("Fetched user data:", res.data);

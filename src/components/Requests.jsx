@@ -14,7 +14,7 @@ const Requests = () => {
     try{
       const fetchRequests = async ()=>{
         const res = await axios.get(
-            {URL} + "/user/requests/received",
+            URL + "user/requests/received",
             { withCredentials : true }
         )
 

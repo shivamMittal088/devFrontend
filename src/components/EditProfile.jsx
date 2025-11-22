@@ -33,7 +33,7 @@ const ProfileForm = ({user})=> {
 
     // Implement profile save logic here
     const res = await axios.patch(
-      {URL} + "/profile/edit",
+      URL + "profile/edit",
       {
         firstName,
         lastName,

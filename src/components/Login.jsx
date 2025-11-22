@@ -39,7 +39,7 @@ const Login = () => {
       console.log("Attempting login with:", { EmailId, Password });
       e.preventDefault(); // ← important: prevents native form submit / reload
       const res = await axios.post(
-        {URL} + "/login", // <- ensure this port matches your backend
+        URL + "login", // <- ensure this port matches your backend
         { 
           emailId: EmailId, 
           password: Password 
@@ -66,7 +66,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        {URL} + "/signup", 
+        URL + "signup", 
         {
           firstName : FirstName,
           lastName : LastName,

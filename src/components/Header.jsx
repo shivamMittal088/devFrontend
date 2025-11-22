@@ -37,7 +37,7 @@ const Header = () => {
   const handleLogout = async () => {
   try {
     setOpen(false);
-    await axios.post({URL} + "/logout", {}, { withCredentials: true });
+    await axios.post(URL + "logout", {}, { withCredentials: true });
     dispatch(removeUser());
 
     toast.success("Logged out succesfully");

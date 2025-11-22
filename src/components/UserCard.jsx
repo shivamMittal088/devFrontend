@@ -22,7 +22,7 @@ const UserCard = ( {user ,className} ) => {
     if (!user) return null; // or return a guest card
     try{
       const res = await axios.post(
-      {URL} + "/request/send/" + status + "/" + _id,
+      URL + "request/send/" + status + "/" + _id,
       {},
       {withCredentials:true}
     )
@@ -41,7 +41,7 @@ const UserCard = ( {user ,className} ) => {
     if (!_id) return; // guard
           try{
               const res = await axios.get(
-                  {URL} + "/user/mutualConnections/" + _id,
+                  URL + "user/mutualConnections/" + _id,
                   {withCredentials:true}
               );
 

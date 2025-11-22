@@ -20,7 +20,7 @@ const RequestCard = ( {user ,requestsId })=> {
     console.log("handle click workings .....");
     try{
       const res = await axios.patch(
-        {URL} + "/request/review/accepted/" + _id ,
+        URL + "request/review/accepted/" + _id ,
         {},
         {withCredentials : true}
       )
@@ -42,7 +42,7 @@ const RequestCard = ( {user ,requestsId })=> {
     console.log("Handling ignore function ............");
     try{
     const res = await axios.patch(
-      {URL} + "/request/review/rejected/ " +_id,
+      URL + "request/review/rejected/ " +_id,
       {},
       {withCredentials:true}
     )
