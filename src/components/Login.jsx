@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { devLogo } from "../Constants";
 import { FiLogIn } from "react-icons/fi";
 import toast from "react-hot-toast";
+import {URL} from "../Constants";
 
 
 const Login = () => {
@@ -38,7 +39,7 @@ const Login = () => {
       console.log("Attempting login with:", { EmailId, Password });
       e.preventDefault(); // ← important: prevents native form submit / reload
       const res = await axios.post(
-        "http://localhost:5555/login", // <- ensure this port matches your backend
+        {URL} + "/login", // <- ensure this port matches your backend
         { 
           emailId: EmailId, 
           password: Password 
@@ -65,7 +66,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5555/signup", 
+        {URL} + "/signup", 
         {
           firstName : FirstName,
           lastName : LastName,

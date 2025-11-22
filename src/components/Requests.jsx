@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import {useDispatch, useSelector} from "react-redux"
 import RequestCard from './RequestCard'
 import { addRequests } from "../utils/requestsSlice"
+import {URL} from "../Constants";
 
 
 const Requests = () => {
@@ -13,7 +14,7 @@ const Requests = () => {
     try{
       const fetchRequests = async ()=>{
         const res = await axios.get(
-            "http://localhost:5555/user/requests/received",
+            {URL} + "/user/requests/received",
             { withCredentials : true }
         )
 

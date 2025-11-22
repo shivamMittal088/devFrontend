@@ -3,6 +3,7 @@ import axios from "axios"
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux';
 import { removeRequests } from '../utils/requestsSlice';
+import {URL} from "../Constants";
 
 const RequestCard = ( {user ,requestsId })=> {
   // const photoURL = "https://rollingstoneindia.com/wp-content/uploads/2024/09/IMG_8914-1536x1152.jpg";
@@ -19,7 +20,7 @@ const RequestCard = ( {user ,requestsId })=> {
     console.log("handle click workings .....");
     try{
       const res = await axios.patch(
-        `http://localhost:5555/request/review/accepted/${_id}`,
+        {URL} + "/request/review/accepted/" + _id ,
         {},
         {withCredentials : true}
       )
@@ -41,7 +42,7 @@ const RequestCard = ( {user ,requestsId })=> {
     console.log("Handling ignore function ............");
     try{
     const res = await axios.patch(
-      `http://localhost:5555/request/review/rejected/${_id}`,
+      {URL} + "/request/review/rejected/ " +_id,
       {},
       {withCredentials:true}
     )

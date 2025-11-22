@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { removeFeed } from "../utils/feedSlice";
 import { addMutuallength } from "../utils/mutualConnectionsSlice";
 import { addMutualData } from "../utils/mutualConnectionsSlice";
+import {URL} from "../Constants";
 
 
 const DEFAULT_AVATAR =
@@ -21,7 +22,7 @@ const UserCard = ( {user ,className} ) => {
     if (!user) return null; // or return a guest card
     try{
       const res = await axios.post(
-      `http://localhost:5555/request/send/${status}/${_id}`,
+      {URL} + "/request/send/" + status + "/" + _id,
       {},
       {withCredentials:true}
     )
@@ -40,7 +41,7 @@ const UserCard = ( {user ,className} ) => {
     if (!_id) return; // guard
           try{
               const res = await axios.get(
-                  `http://localhost:5555/user/mutualConnections/${_id}`,
+                  {URL} + "/user/mutualConnections/" + _id,
                   {withCredentials:true}
               );
 

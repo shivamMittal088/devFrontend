@@ -5,6 +5,7 @@ import axios from "axios";
 import { removeUser } from "../utils/userSlice";
 import { devLogo } from "../Constants";
 import toast from "react-hot-toast";
+import {URL} from "../Constants";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -36,7 +37,7 @@ const Header = () => {
   const handleLogout = async () => {
   try {
     setOpen(false);
-    await axios.post("http://localhost:5555/logout", {}, { withCredentials: true });
+    await axios.post({URL} + "/logout", {}, { withCredentials: true });
     dispatch(removeUser());
 
     toast.success("Logged out succesfully");

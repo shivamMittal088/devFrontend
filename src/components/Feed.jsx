@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import {useDispatch} from 'react-redux';
 import { useSelector } from 'react-redux';
 import UserCard from './UserCard';
+import {URL} from "../Constants"
 
 const Feed = () => {
     const feed = useSelector((store)=>store.feed)
@@ -14,7 +15,7 @@ const Feed = () => {
         if(feed) return;
         try{
             const res = await axios.get(
-                "http://localhost:5555/feed",
+                {URL} + "/feed",
                 { withCredentials: true }
             );
 

@@ -7,6 +7,7 @@ import HelloModal from "./HelloModal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { addUser } from "../utils/userSlice";
+import {URL} from "../Constants"
 
 const Body = () => {
   const user = useSelector((store) => store.user);
@@ -29,7 +30,7 @@ const Body = () => {
       }
       
       const res = await axios.get(
-        "http://localhost:5555/profile/view",
+        { URL } + "/profile/view",
         { withCredentials:true }
       )
       console.log("Fetched user data:", res.data);

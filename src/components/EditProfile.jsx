@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import UserCard from "./UserCard";
 import { addUser } from "../utils/userSlice";
 import ProgressBar from "./ProgressBar";
+import {URL} from "../Constants";
 
 const ProfileForm = ({user})=> {
   
@@ -24,6 +25,7 @@ const ProfileForm = ({user})=> {
   const dispatch = useDispatch();
 
 
+
   const handleSaveProfile = async (e)=>{
     //Clear Errors
     setError("");
@@ -31,7 +33,7 @@ const ProfileForm = ({user})=> {
 
     // Implement profile save logic here
     const res = await axios.patch(
-      "http://localhost:5555/profile/edit",
+      {URL} + "/profile/edit",
       {
         firstName,
         lastName,
