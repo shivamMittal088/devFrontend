@@ -13,11 +13,6 @@ import {URL} from "../Constants";
 const Login = () => {
   console.log("Rendering Login component");
   const [FirstName,setFirstName] = useState("");
-  const [LastName ,setLastName] = useState("")
-  const [age,setAge] = useState("")
-  const [bio,setBio] = useState("");
-  const [gender ,setGender] = useState("");
-  const [photoURL , setPhotoURL] = useState("");
   const [EmailId, setEmailId] = useState("");
   const [Password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -36,7 +31,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     setError("");
     try {
-      console.log("Attempting login with:", { EmailId, Password });
+      console.log("Attempting login with:", { EmailId});
       e.preventDefault(); // ← important: prevents native form submit / reload
       const res = await axios.post(
         URL + "login", // <- ensure this port matches your backend
@@ -47,7 +42,7 @@ const Login = () => {
         { withCredentials: true } // to send cookies with the request
       );
 
-      console.log("Login response:", res.data);
+      // console.log("Login response:", res.data);
       dispatch(addUser(res.data)); // <- dispatch user data to Redux store
 
        toast.success("Logged in successfully!");
@@ -69,13 +64,9 @@ const Login = () => {
         URL + "signup", 
         {
           firstName : FirstName,
-          lastName : LastName,
           emailId : EmailId,
           password:Password,
-          age : age,
-          bio:bio,
-          gender:gender,
-          photoURL : photoURL,
+
         }, 
         { withCredentials: true })
 
@@ -166,72 +157,6 @@ const Login = () => {
                       value={FirstName}
                       className="w-full px-3 py-2 rounded-lg bg-white/90 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                       onChange={(e) => setFirstName(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1">
-                    <label className="text-sm font-semibold text-white">Last Name</label>
-                    <input
-                      type="text"
-                      placeholder="Last name"
-                      value={LastName}
-                      className="w-full px-3 py-2 rounded-lg bg-white/90 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1 w-full">
-                  <label className="text-white font-semibold text-sm">Gender</label>
-
-                  <select
-                  className="w-full bg-white/90 text-gray-800 px-3 py-2 rounded-lg 
-                  focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  defaultValue=""
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  >
-                  <option value="" disabled>Select gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                  </select>
-                  </div>
-
-
-                  <div className="flex flex-col gap-1">
-                    <label className="text-sm font-semibold text-white">Age</label>
-                    <input
-                      type="text"
-                      placeholder="Age"
-                      value={age}
-                      className="w-full px-3 py-2 rounded-lg bg-white/90 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                      onChange={(e) => setAge(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="col-span-2 flex flex-col gap-1">
-                    <label className="text-sm font-semibold text-white">Bio</label>
-                    <input
-                      type="text"
-                      placeholder="Short bio"
-                      value={bio}
-                      className="w-full px-3 py-2 rounded-lg bg-white/90 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                      onChange={(e) => setBio(e.target.value)}
-                    />
-                  </div>
-
-
-                  <div className="col-span-2 flex flex-col gap-1">
-                    <label className="text-sm font-semibold text-white flex items-center justify-between">
-                      <span>Photo URL</span>
-                      <span className="text-xs text-white/70">Optional</span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Photo URL"
-                      value={photoURL}
-                      className="w-full px-3 py-2 rounded-lg bg-white/90 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                      onChange={(e) => setPhotoURL(e.target.value)}
                     />
                   </div>
                 </div>
