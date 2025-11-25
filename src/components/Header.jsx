@@ -6,6 +6,7 @@ import { removeUser } from "../utils/userSlice";
 import { devLogo } from "../Constants";
 import toast from "react-hot-toast";
 import {URL} from "../Constants";
+import StreakBadge from "../Features/StreakBadge";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -80,6 +81,12 @@ const Header = () => {
 
             {user && (
               <nav className="flex items-center gap-6">
+                {/* Streak badge (visible on desktop) */}
+                <div className="hidden md:flex items-center">
+                <StreakBadge streak={user.streakCount}/>
+                </div>
+
+                {/* Profile  */}
                 <div className="relative">
                   <button
                     ref={btnRef}

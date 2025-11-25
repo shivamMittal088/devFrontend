@@ -84,6 +84,8 @@ const UserCard = ( {user ,className} ) => {
         {/* Name */}
         <h3 className="text-xl font-semibold text-gray-900">{fullName}</h3>
 
+        
+
         {/* Age + Gender */}
         <p className="text-sm text-gray-600">
           {age || "—"} <span className="mx-1">•</span> {gender || "—"}
