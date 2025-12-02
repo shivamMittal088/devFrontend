@@ -13,7 +13,7 @@ const Connections = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Read URL params (fallbacks)
-  const urlPage = parseInt(searchParams.get("page")) || 1;
+  const urlPage  = parseInt(searchParams.get("page"))  || 1;
   const urlLimit = parseInt(searchParams.get("limit")) || 5;
 
   // Initialize state from URL params
@@ -24,7 +24,7 @@ const Connections = () => {
 
   // Keep URL in sync when page or limit change (state -> URL)
   useEffect(() => {
-    const sPage = String(page);
+    const sPage  = String(page);
     const sLimit = String(limit);
     
     // only update if different to avoid unnecessary history changes
@@ -100,13 +100,14 @@ const Connections = () => {
   // Render numbered buttons
   const renderPageButtons = () => {
     const pages = [];
-    const maxButtons = 7;
-    let start = Math.max(1, page - Math.floor(maxButtons / 2));
-    let end = start + maxButtons - 1;
+    const maxButtons = 3;
+    let start = 1;
+    let end = maxButtons;
     if (end > totalPages) {
       end = totalPages;
       start = Math.max(1, end - maxButtons + 1);
     }
+    
     for (let p = start; p <= end; p++) {
       pages.push(
         <button

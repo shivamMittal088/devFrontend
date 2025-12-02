@@ -7,14 +7,35 @@ import { addMutualData } from "../utils/mutualConnectionsSlice";
 import {URL} from "../Constants";
 
 
+
 const DEFAULT_AVATAR =
   "https://cdn-icons-png.flaticon.com/512/847/847969.png";
 
 const UserCard = ( {user ,className} ) => {
+  const loggedInUser = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const mutual = useSelector((store)=>store.mutual);
-  const { _id ,photoURL,firstName, lastName, age, gender, bio ,skills} = user;
+
+  const { _id ,photoURL,firstName, lastName, age, gender, bio ,skills ,lastActiveAt} = user;
+  console.log("Hhello" ,lastActiveAt);
+
   const fullName = [firstName, lastName].filter(Boolean).join(" ") || "Unknown";
+
+// Convert lastActiveAt → "Active 5m ago" or "Online"
+const getLastSeenText = () => {
+  if (!user?.lastActiveAt) return "Offline";
+
+  const diff = Date.now() - new Date(user.lastActiveAt).getTime();
+  const mins = Math.floor(diff / 60000);
+  const hours = Math.floor(mins / 60);
+
+  // 👉 New rule: Less than 2 minutes = Online
+  if (mins < 2) return "Online";
+
+  if (mins < 60) return `Active ${mins}m ago`;
+  return `Active ${hours}h ago`;
+};
+
 
 
 
@@ -83,6 +104,22 @@ const UserCard = ( {user ,className} ) => {
 
         {/* Name */}
         <h3 className="text-xl font-semibold text-gray-900">{fullName}</h3>
+
+        <div className="flex items-center gap-2 mt-1">
+  <span
+    className={`
+      h-3 w-3 rounded-full 
+      ${getLastSeenText() === "Online" ? "bg-green-500" : "bg-gray-400"}
+    `}
+  ></span>
+
+  <span className="text-sm font-medium text-gray-600">
+    {getLastSeenText()}
+  </span>
+</div>
+
+
+
 
         
 
