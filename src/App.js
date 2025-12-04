@@ -12,6 +12,7 @@ import NoRouteFound from './components/NoRoundFound';
 import CustomOfflinePage from './components/CustomOfflinePage'
 
 import { Toaster } from "react-hot-toast";
+import WebChat from './components/WebChat';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/Profile" element={<Profile />}/>
           <Route path="/Connections" element={<Connections/>} />
           <Route path="/requests" element = {<Requests/>} />
+          <Route path = "/WebChat/:targetUserId" element = {<WebChat />} />
         </Route>
 
         {/* offline fallback page */}
