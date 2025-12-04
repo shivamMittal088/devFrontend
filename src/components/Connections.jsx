@@ -5,6 +5,7 @@ import { setConnections } from "../utils/connectionsSlice";
 import ConnectionCard from "./ConnectionCard";
 import { URL } from "../Constants";
 import { useSearchParams } from "react-router-dom";
+import ConnectionsShimmer from "../Shimmer/ConnectionsShimmer";
 
 const Connections = () => {
   const dispatch = useDispatch();
@@ -77,9 +78,9 @@ const Connections = () => {
   // Guards
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p>Loading connections...</p>
-      </div>
+      <div className="min-h-screen flex flex-col items-center py-8">
+      <ConnectionsShimmer count={6} layout="list" />
+    </div>
     );
   }
 

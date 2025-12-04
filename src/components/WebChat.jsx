@@ -16,13 +16,18 @@ const WebChat = () => {
   const messagesEndRef = useRef(null);
 
   const sendMessage = () => {
+     const text = newMessage?.trim();    // remove whitespace around
+     if (!text) return; 
+
+
+
     const socket = createSocketConnection();
     socket.emit("sendMessage", {
       firstName: user?.firstName,
       lastName: user?.lastName,
       loggedInUserId,
       targetUserId,
-      text: newMessage,
+      text,
     });
 
     setNewMessage("");
